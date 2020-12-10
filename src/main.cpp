@@ -1,58 +1,63 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <sstream>
 
 #include <Professor.h>
 #include <Disciplina.h>
 
 using namespace std;
 
-void alocaProfessor(vector<Professor> professores, vector<Disciplina> disciplinas, int k) {
-  if (k == professores.size())
-    return;
-
-  cout << disciplinas[k].getNome() << endl;
-
-  for(auto professor : professores) 
-    cout << professor.getNome() << " " << professor.getAptidao(disciplinas[k].getNome()) << endl;
-
-  cout << endl;
-
-  alocaProfessor(professores, disciplinas, k+1);
-}
-
 int main(){
   vector<Professor> professores;
-  vector<Disciplina> disciplinas;
+  vector<string> disciplinas;
 
-  Disciplina d1("POO", 6), 
-             d2("Falar merda", 4), 
-             d3("ATAL", 6);
+  ifstream arquivo;
+  arquivo.open("src/tabela.csv");
 
-  disciplinas.push_back(d1);
-  disciplinas.push_back(d2);
-  disciplinas.push_back(d3);
+  if(arquivo.fail())
+    cout << "erro ao abrir o arquivo!" << endl;
 
-  Professor p1, p2, p3;
-  p1.setNome("Ruan");
-  p1.setAptidao(d1.getNome(), 3);
-  p1.setAptidao(d2.getNome(), 0);
-  p1.setAptidao(d3.getNome(), 5);
+  string linha, coluna;
 
-  p2.setNome("Katy");
-  p2.setAptidao(d1.getNome(), 5);
-  p2.setAptidao(d2.getNome(), 2);
-  p2.setAptidao(d3.getNome(), 2);
+  if (arquivo.good()) {
+    getline(arquivo, linha);
+    stringstream ss(linha);
 
-  p3.setNome("George");
-  p3.setAptidao(d1.getNome(), 0);
-  p3.setAptidao(d2.getNome(), 5);
-  p3.setAptidao(d3.getNome(), 0);
+    while(getline(ss, coluna, ',')) 
+      disciplinas.push_back(coluna);
+  }
 
-  professores.push_back(p1);
-  professores.push_back(p2);
-  professores.push_back(p3);
+  while(getline(arquivo, linha)) {
+    stringstream ss(linha);
+    string data;
 
-  alocaProfessor(professores, disciplinas, 0);
+    int colunaId = 0;
+
+    Professor p;
+
+    while (getline(ss, data, ',')) {
+      if (!colunaId) {
+        p.setNome(data.c_str());
+      } else {
+        cout << disciplinas[colunaId] << ", " << endl;
+        p.setAptidao(disciplinas[colunaId], atoi(data.c_str()));
+      }
+      colunaId++;
+    }
+
+    professores.push_back(p);
+  }
+
+  disciplinas.erase(disciplinas.begin());
+
+  for(auto d : disciplinas) {
+    cout << d << endl;
+    for(auto p : professores) {
+      cout << p.getNome() << ", " << p.getAptidao(d) << endl;
+    }
+    cout << endl;
+  }
 
   return 0;
 }

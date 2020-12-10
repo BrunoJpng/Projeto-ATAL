@@ -11,7 +11,7 @@ class Disciplina {
     int CargaHoraria;
 
   public:
-    Disciplina(string nome, int cargaHoraria);
+    Disciplina(string nome, int Chsala, int CHpreparacao, int CHacompanhamento);
     string getNome();
     int getCargaHoraria();
 };

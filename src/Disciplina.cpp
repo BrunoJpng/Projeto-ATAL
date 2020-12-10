@@ -3,9 +3,9 @@
 
 using namespace std;
 
-Disciplina::Disciplina(string nome, int cargaHoraria) {
+Disciplina::Disciplina(string nome, int CHsala, int CHpreparacao, int CHacompanhamento) {
   this -> Nome = nome;
-  this -> CargaHoraria = cargaHoraria;
+  this -> CargaHoraria = CHsala + CHpreparacao + CHacompanhamento;
 }
 
 string Disciplina::getNome() {
