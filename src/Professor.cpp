@@ -1,19 +1,15 @@
-#include "Professor.h"
-#include <string>
+#include <Professor.h>
 
-using namespace std;
-
-Professor::Professor() {
-  CargaHoraria = 20;
-  CargoGestao = false;
-  CargoDirecao = false;
+Professor::Professor(string Nome, int CargaHoraria) {
+  this -> Nome = Nome;
+  this -> CargaHoraria = CargaHoraria;
 }
 
 // Professor::~Professor() {}
 
-void Professor::setNome(string nome) {
-  this -> Nome = nome;
-}
+// void Professor::setId(int id) {
+//   this -> id = id;
+// }
 
 string Professor::getNome() {
   return this -> Nome;
@@ -27,38 +23,38 @@ int Professor::getCargaHoraria() {
   return this -> CargaHoraria;
 }
 
-void Professor::setCargoGestao(bool CargoGestao) {
-  if (this -> CargoDirecao)
-    setCargoDirecao(false);
+// void Professor::setCargoGestao(bool CargoGestao) {
+//   if (this -> CargoDirecao)
+//     setCargoDirecao(false);
 
-  if (CargoGestao)
-    setCargaHoraria(12);
+//   if (CargoGestao)
+//     setCargaHoraria(12);
 
-  this -> CargoGestao = CargoGestao;
-}
+//   this -> CargoGestao = CargoGestao;
+// }
 
-bool Professor::getCargoGestao() {
-  return this -> CargoGestao;
-}
+// bool Professor::getCargoGestao() {
+//   return this -> CargoGestao;
+// }
 
-void Professor::setCargoDirecao(bool CargoDirecao) {
-  if (this -> CargoGestao)
-    setCargoGestao(false);
+// void Professor::setCargoDirecao(bool CargoDirecao) {
+//   if (this -> CargoGestao)
+//     setCargoGestao(false);
 
-  if (CargoDirecao)
-    setCargaHoraria(0);
+//   if (CargoDirecao)
+//     setCargaHoraria(0);
 
-  this -> CargoDirecao = CargoDirecao;
-}
+//   this -> CargoDirecao = CargoDirecao;
+// }
 
-bool Professor::getCargoDirecao() {
-  return this -> CargoDirecao;
-}
+// bool Professor::getCargoDirecao() {
+//   return this -> CargoDirecao;
+// }
 
-void Professor::setAptidao(string disciplina, int peso) {
-  this -> aptidao[disciplina] = peso;
-}
+// void Professor::setAptidao(string disciplina, int peso) {
+//   this -> aptidao[disciplina] = peso;
+// }
 
-int Professor::getAptidao(string disciplina) {
-  return this -> aptidao[disciplina];
-}
+// int Professor::getAptidao(string disciplina) {
+//   return this -> aptidao[disciplina];
+// }

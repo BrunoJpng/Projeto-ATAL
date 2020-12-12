@@ -1,11 +1,8 @@
 #include <Disciplina.h>
-#include <string>
 
-using namespace std;
-
-Disciplina::Disciplina(string nome, int CHsala, int CHpreparacao, int CHacompanhamento) {
+Disciplina::Disciplina(string nome, int chSala, int chPreparacao, int chAcompanhamento) {
   this -> Nome = nome;
-  this -> CargaHoraria = CHsala + CHpreparacao + CHacompanhamento;
+  this -> CargaHoraria = chSala + chPreparacao + chAcompanhamento;
 }
 
 string Disciplina::getNome() {

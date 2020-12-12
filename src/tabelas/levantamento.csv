@@ -1,0 +1,13 @@
+ID do Professor;Disciplinas de Informatica Basica/Fundamentos de Informatica;Metodologia da Pesquisa Cientifica;Disciplinas de Introducao a Programacao (ex: Algoritmos, Algoritmos e Programacao, Programacao I);Estruturas de Dados/Programacao 2 em Python;Estruturas de Dados em C;Programacao Orientada a Objetos em Java;Programacao Orientada a Objetos em C++;Programacao III (programacao concorrente, programacao para redes, nocoes basicas de servicos web e sistemas web);Teoria dos Grafos;Analise e Tecnicas de Algoritmos;Teoria da Computacao;Sistemas Operacionais (disciplina tradicional, mais teorica);Redes de Computadores (disciplina tradicional, mais teorica);Banco de Dados;Inteligencia Artificial;Analise e Projeto de Sistemas;Padroes de Projeto;Teste de Software;Gerencia de Projetos;Desenvolvimento Web;Lab. de Sistemas Abertos;Laboratorio de Sistemas Operacionais;Arquitetura de Computadores;Adm. de Sistemas Oper. Abertos;Adm. de Sistemas Oper. Proprietarios;Administracao de Sistemas;Administracao de Servicos;Estatistica Aplicada;Metodos Numericos;Sistemas Digitais I;Sistemas Digitais II;Projeto em Telematica;Projeto em Engenharia de Computacao;Tecnologia de Redes Locais
+1;5;4;5;3;2;5;2;2;3;3;2;3;2;2;2;4;5;4;4;2;3;2;1;3;2;2;1;1;1;1;1;1;2;1
+2;3;3;5;3;3;5;1;2;1;1;1;1;1;3;1;3;2;2;2;3;1;1;1;1;1;1;1;1;1;1;1;1;1;1
+3;2;2;5;4;5;5;1;4;1;1;1;1;1;2;1;2;4;4;1;4;4;1;1;2;1;1;1;1;1;1;1;2;2;1
+4;3;4;5;5;4;5;4;3;3;3;2;2;1;5;5;4;4;3;4;4;2;2;1;2;2;2;2;5;2;1;1;4;4;1
+5;3;4;5;3;2;1;1;1;1;1;1;1;1;3;1;2;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1
+6;2;2;3;3;3;3;1;1;2;2;5;1;1;1;5;3;4;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;4;1
+7;5;3;2;1;2;2;1;1;2;2;3;1;3;2;2;3;3;3;4;1;1;1;2;1;1;1;1;1;2;3;3;3;3;2
+8;3;4;1;1;1;1;1;1;1;1;1;1;1;4;1;2;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1
+9;3;3;5;4;3;5;2;5;3;3;2;2;2;5;4;4;4;4;4;5;2;2;2;2;2;2;2;2;2;2;2;2;2;2
+10;4;3;5;5;5;5;4;1;1;3;1;3;3;5;1;4;4;5;4;2;1;1;2;1;1;1;1;1;1;1;1;1;1;1
+11;4;1;4;3;3;2;2;2;1;2;1;1;2;2;2;2;1;2;1;1;1;2;2;1;3;2;1;1;1;2;1;1;1;1
+12;3;4;5;5;5;4;4;5;3;3;3;2;2;4;3;4;5;4;4;3;2;2;3;2;2;2;2;2;1;1;1;3;4;1

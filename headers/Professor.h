@@ -10,28 +10,28 @@ class Professor {
   private:
     string Nome;
     int CargaHoraria;
-    bool CargoGestao;
-    bool CargoDirecao;
-    unordered_map<string, int> aptidao;
+    // bool CargoGestao;
+    // bool CargoDirecao;
+    // unordered_map<string, int> aptidao;
 
   public:
-    Professor();
+    Professor(string Nome, int CargaHoraria);
     // ~Professor();
 
-    void setNome(string nome);
+    // void setId(int id);
     string getNome();
 
     void setCargaHoraria(int CargaHoraria);
     int getCargaHoraria();
 
-    void setCargoGestao(bool CargoGestao);
-    bool getCargoGestao();
+    // void setCargoGestao(bool CargoGestao);
+    // bool getCargoGestao();
 
-    void setCargoDirecao(bool CargoDirecao);
-    bool getCargoDirecao();
+    // void setCargoDirecao(bool CargoDirecao);
+    // bool getCargoDirecao();
 
-    void setAptidao(string disciplina, int peso);
-    int getAptidao(string disciplina);
+    // void setAptidao(string disciplina, int peso);
+    // int getAptidao(string disciplina);
 };
 
 #endif /* PROFESSOR_H */

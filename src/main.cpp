@@ -1,63 +1,79 @@
 #include <iostream>
 #include <vector>
-#include <fstream>
-#include <sstream>
-
+#include <math.h>
 #include <Professor.h>
 #include <Disciplina.h>
+#include <CSVReader.h>
 
 using namespace std;
 
-int main(){
-  vector<Professor> professores;
-  vector<string> disciplinas;
+vector<Professor> professores;
+vector<Disciplina> disciplinas;
+int combinacoes = 0;
 
-  ifstream arquivo;
-  arquivo.open("src/tabela.csv");
+double desvioPadrao(vector<Professor> A) {
+  double somatorio = 0, media, variancia = 0;
 
-  if(arquivo.fail())
-    cout << "erro ao abrir o arquivo!" << endl;
+  for(auto a : A) 
+    somatorio += a.getCargaHoraria();
 
-  string linha, coluna;
+  media = somatorio / A.size();
 
-  if (arquivo.good()) {
-    getline(arquivo, linha);
-    stringstream ss(linha);
-
-    while(getline(ss, coluna, ',')) 
-      disciplinas.push_back(coluna);
+  for(auto a : A) {
+    // cout << a.getCargaHoraria() << " ";
+    double v = a.getCargaHoraria() - media;
+    variancia += v*v;
   }
 
-  while(getline(arquivo, linha)) {
-    stringstream ss(linha);
-    string data;
+  variancia = variancia / A.size();
 
-    int colunaId = 0;
+  return sqrt(variancia);
+}
 
-    Professor p;
+int getAptidao(vector<Professor> A, vector<vector<int>> matrizAptidao) {
+  int somatorio = 0, cont = 0;
 
-    while (getline(ss, data, ',')) {
-      if (!colunaId) {
-        p.setNome(data.c_str());
-      } else {
-        cout << disciplinas[colunaId] << ", " << endl;
-        p.setAptidao(disciplinas[colunaId], atoi(data.c_str()));
+  for(auto a : A) {
+    cout << a.getNome() << " ";
+    somatorio += matrizAptidao[stoi(a.getNome())-1][cont];
+    cont++;
+  }
+  cout << endl;
+
+  return somatorio;
+}
+
+void BackTracking(vector<Professor> A, int k, vector<vector<int>> matrizAptidao) {
+  if (k == disciplinas.size()){
+    cout << "Aptidao: " << getAptidao(A, matrizAptidao) << endl;
+    cout << "Desvio Padrao: " << desvioPadrao(A) << endl << endl;
+    combinacoes++;
+  } else {
+    vector<Professor> candidatos;
+
+    for(int i=0; i<professores.size(); i++)
+      if (professores[i].getCargaHoraria() >= disciplinas[k].getCargaHoraria() && matrizAptidao[i][k] > 2) {
+        professores[i].setCargaHoraria(professores[i].getCargaHoraria() - disciplinas[k].getCargaHoraria());
+        A.push_back(professores[i]);
+        
+        BackTracking(A, k+1, matrizAptidao);
+        
+        A.pop_back();
+        professores[i].setCargaHoraria(professores[i].getCargaHoraria() + disciplinas[k].getCargaHoraria());
       }
-      colunaId++;
-    }
-
-    professores.push_back(p);
   }
+}
 
-  disciplinas.erase(disciplinas.begin());
+int main(){
+  vector<Professor> aux;
+  CSVReader a("levantamento.csv");
 
-  for(auto d : disciplinas) {
-    cout << d << endl;
-    for(auto p : professores) {
-      cout << p.getNome() << ", " << p.getAptidao(d) << endl;
-    }
-    cout << endl;
-  }
+  professores = a.getProfessores();
+  disciplinas = a.getDisciplinas();
+
+  BackTracking(aux,0,a.getMatriz());
+
+  cout << combinacoes << " combinacoes" << endl;
 
   return 0;
 }
