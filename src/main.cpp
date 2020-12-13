@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <math.h>
 #include <Professor.h>
 #include <Disciplina.h>
@@ -7,52 +8,70 @@
 
 using namespace std;
 
+struct resultado {
+  vector<Professor> alocacao;
+  double desvioPadrao, aptidaoMedia;
+};
+
 vector<Professor> professores;
 vector<Disciplina> disciplinas;
-int combinacoes = 0;
+vector<resultado> resultados;
 
-double desvioPadrao(vector<Professor> A) {
+int combinacoes = 0;
+Professor nulo("Vazio",-1);
+
+bool cmpAptidao(const resultado &a, const resultado &b) {
+  return (b.aptidaoMedia/b.desvioPadrao) < (a.aptidaoMedia/a.desvioPadrao);
+}
+
+double desvioPadrao() {
   double somatorio = 0, media, variancia = 0;
 
-  for(auto a : A) 
-    somatorio += a.getCargaHoraria();
+  for(auto p : professores) 
+    somatorio += p.getCargaHoraria();
 
-  media = somatorio / A.size();
+  media = somatorio / professores.size();
 
-  for(auto a : A) {
-    // cout << a.getCargaHoraria() << " ";
-    double v = a.getCargaHoraria() - media;
+  for(auto p : professores) {
+    double v = p.getCargaHoraria() - media;
     variancia += v*v;
   }
 
-  variancia = variancia / A.size();
+  variancia = variancia / professores.size();
 
   return sqrt(variancia);
 }
 
-int getAptidao(vector<Professor> A, vector<vector<int>> matrizAptidao) {
-  int somatorio = 0, cont = 0;
+double aptidaoMedia(vector<Professor> A, vector<vector<int>> matrizAptidao) {
+  double somatorio = 0, cont = 0;
 
   for(auto a : A) {
-    cout << a.getNome() << " ";
-    somatorio += matrizAptidao[stoi(a.getNome())-1][cont];
-    cont++;
+    if(a.getNome() != "Vazio") {
+      somatorio += matrizAptidao[stoi(a.getNome())-1][cont];
+      cont++;
+    }
   }
-  cout << endl;
 
-  return somatorio;
+  return somatorio / A.size();
 }
 
 void BackTracking(vector<Professor> A, int k, vector<vector<int>> matrizAptidao) {
   if (k == disciplinas.size()){
-    cout << "Aptidao: " << getAptidao(A, matrizAptidao) << endl;
-    cout << "Desvio Padrao: " << desvioPadrao(A) << endl << endl;
+    resultado tmp;
+    tmp.alocacao = A;
+    tmp.aptidaoMedia = aptidaoMedia(A, matrizAptidao);
+    tmp.desvioPadrao = desvioPadrao();
+
+    resultados.push_back(tmp);
+
     combinacoes++;
   } else {
-    vector<Professor> candidatos;
+    int cont = 0;
 
     for(int i=0; i<professores.size(); i++)
       if (professores[i].getCargaHoraria() >= disciplinas[k].getCargaHoraria() && matrizAptidao[i][k] > 2) {
+        cont++;
+
         professores[i].setCargaHoraria(professores[i].getCargaHoraria() - disciplinas[k].getCargaHoraria());
         A.push_back(professores[i]);
         
@@ -61,12 +80,17 @@ void BackTracking(vector<Professor> A, int k, vector<vector<int>> matrizAptidao)
         A.pop_back();
         professores[i].setCargaHoraria(professores[i].getCargaHoraria() + disciplinas[k].getCargaHoraria());
       }
+
+    if(cont == 0) {
+      A.push_back(nulo);
+      BackTracking(A, k+1, matrizAptidao);
+    }
   }
 }
 
 int main(){
   vector<Professor> aux;
-  CSVReader a("levantamento.csv");
+  CSVReader a("teste.csv");
 
   professores = a.getProfessores();
   disciplinas = a.getDisciplinas();
@@ -74,6 +98,23 @@ int main(){
   BackTracking(aux,0,a.getMatriz());
 
   cout << combinacoes << " combinacoes" << endl;
+
+  sort(resultados.begin(), resultados.end(), cmpAptidao);
+
+  for(int i=0; i < 10 && i < resultados.size(); i++) {
+    cout << "Aptidao: " << resultados[i].aptidaoMedia << " Desvio padrao: " << resultados[i].desvioPadrao << endl;
+    
+    for(int j=0; j < resultados[i].alocacao.size(); j++) {
+      cout << disciplinas[j].getNome();
+      
+      if (resultados[i].alocacao[j].getNome() == "Vazio")
+        cout << " Sem professor." << endl;
+      else 
+        cout << " Professor: " << resultados[i].alocacao[j].getNome() << endl;
+    }
+
+    cout << endl;
+  }
 
   return 0;
 }

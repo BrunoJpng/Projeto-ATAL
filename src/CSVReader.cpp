@@ -13,21 +13,47 @@ CSVReader::CSVReader(string arquivo) {
   vector<Disciplina> disciplinas;
   vector<vector<int>> matrizAptidao;
 
-  ifstream file;
-  file.open("src/tabelas/"+arquivo);
+  ifstream file, chDisciplina, chProfessor;
+  file.open("src/tabelas/" + arquivo);
+  chDisciplina.open("src/tabelas/chDisciplinas.csv");
+  chProfessor.open("src/tabelas/chProfessores.csv");
 
-  if(file.fail())
+  if(file.fail() || chDisciplina.fail() || chProfessor.fail())
     cout << "erro ao abrir o arquivo!" << endl;
 
   string linha, coluna;
 
-  if (file.good()) {
-    getline(file, linha);
+  while(getline(chDisciplina, linha)) {
     stringstream ss(linha);
 
-    while(getline(ss, coluna, ';')) 
-      disciplinas.push_back(Disciplina(coluna,2,2,0));
+    getline(ss, coluna, ';');
+    string nome = coluna;
+    
+    getline(ss, coluna, ';');
+    int chSala = stoi(coluna);
+
+    getline(ss, coluna, ';');
+    int chPreparacao = stoi(coluna);
+
+    getline(ss, coluna, ';');
+    int chAcompanhamento = stoi(coluna);
+
+    disciplinas.push_back(Disciplina(nome, chSala, chPreparacao, chAcompanhamento));
   }
+
+  while(getline(chProfessor, linha)) {
+    stringstream ss(linha);
+
+    getline(ss, coluna, ';');
+    string nome = coluna;
+
+    getline(ss, coluna, ';');
+    int ch = stoi(coluna);
+
+    professores.push_back(Professor(nome, ch));
+  }
+
+  getline(file, linha);
 
   while(getline(file, linha)) {
     stringstream ss(linha);
@@ -38,7 +64,6 @@ CSVReader::CSVReader(string arquivo) {
 
     while (getline(ss, coluna, ';')) {
       if (primeiraColuna) {
-        professores.push_back(Professor(coluna, 20));
         primeiraColuna = false;
       } else {
         aptidoes.push_back(stoi(coluna));
@@ -48,11 +73,13 @@ CSVReader::CSVReader(string arquivo) {
     matrizAptidao.push_back(aptidoes);
   }
 
-  disciplinas.erase(disciplinas.begin());
-
   this -> matrizAptidao = matrizAptidao;
   this -> professores = professores;
   this -> disciplinas = disciplinas;
+
+  file.close();
+  chDisciplina.close();
+  chProfessor.close();
 }
 
 vector<vector<int>> CSVReader::getMatriz() {
